@@ -6,7 +6,7 @@ using UnityStandardAssets.Characters.ThirdPerson;
 public class PlayerMovement : MonoBehaviour
 {
 	
-    ThirdPersonCharacter m_Character;   // A reference to the ThirdPersonCharacter on the object
+    ThirdPersonCharacter thirdPersonCharacter;   // A reference to the ThirdPersonCharacter on the object
     CameraRaycaster cameraRaycaster;
     Vector3 currentClickTarget;
 	bool isInDirectMovementMode = false;
@@ -15,13 +15,14 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         cameraRaycaster = Camera.main.GetComponent<CameraRaycaster>();
-        m_Character = GetComponent<ThirdPersonCharacter>();
+        thirdPersonCharacter = GetComponent<ThirdPersonCharacter>();
         currentClickTarget = transform.position;
     }
     private void Update(){
 		if (Input.GetKeyDown(KeyCode.G)){			
 			isInDirectMovementMode = !isInDirectMovementMode;
-			print (isInDirectMovementMode);
+			currentClickTarget = transform.position;
+			//print (isInDirectMovementMode);
 		}
     }
     // Fixed update is called in sync with physics
@@ -38,17 +39,17 @@ public class PlayerMovement : MonoBehaviour
 		float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
 
-       Vector3	m_CamForward = Vector3.Scale(Camera.main.transform.forward, new Vector3(1, 0, 1)).normalized;
-       Vector3 m_Move = v*m_CamForward + h*Camera.main.transform.right;
+       Vector3	cameraForward = Vector3.Scale(Camera.main.transform.forward, new Vector3(1, 0, 1)).normalized;
+       Vector3 movement = v*cameraForward + h*Camera.main.transform.right;
 
-		m_Character.Move (m_Move, false, false);
+		thirdPersonCharacter.Move (movement, false, false);
 	}
 
 
 
 	void ProcessMouseMovement () {
 		if (Input.GetMouseButton (0)) {
-			print ("Cursor raycast hit" + cameraRaycaster.layerHit);
+			//print ("Cursor raycast hit" + cameraRaycaster.layerHit);
 			switch (cameraRaycaster.layerHit) {
 			case Layer.Walkable:
 				currentClickTarget = cameraRaycaster.hit.point;
@@ -65,10 +66,10 @@ public class PlayerMovement : MonoBehaviour
 		}
 		var playerToClickPoint = currentClickTarget - transform.position;
 		if (playerToClickPoint.magnitude > walkMoveStopRadius) {
-			m_Character.Move (playerToClickPoint, false, false);
+			thirdPersonCharacter.Move (playerToClickPoint, false, false);
 		}
 		else {
-			m_Character.Move (Vector3.zero, false, false);
+			thirdPersonCharacter.Move (Vector3.zero, false, false);
 		}
 	}
 }
