@@ -25,6 +25,7 @@ public class PlayerMovement : MonoBehaviour
     private void Update(){
 		if (Input.GetKeyDown(KeyCode.G)){			
 			isInDirectMovementMode = !isInDirectMovementMode;
+			Cursor.visible = !Cursor.visible;
 			currentDestination = transform.position;
 			//print (isInDirectMovementMode);
 		}
