@@ -20,6 +20,7 @@ public class CameraRaycasterEditor : Editor
                 BindArrayElements();
             }
             EditorGUI.indentLevel--;
+
         }
 
         serializedObject.ApplyModifiedProperties(); // De-serialize back to cameraRaycaster (and create undo point)
@@ -44,4 +45,6 @@ public class CameraRaycasterEditor : Editor
             prop.intValue = EditorGUILayout.LayerField(string.Format("Layer {0}:", i), prop.intValue);
         }
     }
+
+
 }
