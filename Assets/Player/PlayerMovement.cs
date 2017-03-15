@@ -22,23 +22,7 @@ public class PlayerMovement : MonoBehaviour
         thirdPersonCharacter = GetComponent<ThirdPersonCharacter>();
         currentDestination = transform.position;
     }
-    private void Update(){
-		if (Input.GetKeyDown(KeyCode.G)){			
-			isInDirectMovementMode = !isInDirectMovementMode;
-			Cursor.visible = !Cursor.visible;
-			currentDestination = transform.position;
-			//print (isInDirectMovementMode);
-		}
-    }
-    // Fixed update is called in sync with physics
-    private void FixedUpdate ()	{
 
-		if (isInDirectMovementMode){
-			ProcessDirectMovement ();
-		}else {
-			ProcessMouseMovement ();
-		}		
-    }
 
 	void ProcessDirectMovement (){
 		float h = Input.GetAxis("Horizontal");
@@ -52,25 +36,25 @@ public class PlayerMovement : MonoBehaviour
 
 
 
-	void ProcessMouseMovement () {
-		if (Input.GetMouseButton (0)) {
-			 clickPoint = cameraRaycaster.hit.point;
-			switch (cameraRaycaster.layerHit) {
-			case Layer.Walkable:
-				currentDestination = ShortDestination(clickPoint,walkMoveStopRadius);
-				break;
-			case Layer.Enemy:
-				currentDestination = ShortDestination(clickPoint,attackMoveStopRadius);
-				break;
-			case Layer.RaycastEndStop:
-				break;
-			default:
-				print ("i dont think we are supposed to be here lady");
-				return;
-			}
-		}
-		WalkToDestination ();
-	}
+//	void ProcessMouseMovement () {
+//		if (Input.GetMouseButton (0)) {
+//			 clickPoint = cameraRaycaster.hit.point;
+//			switch (cameraRaycaster.layerHit) {
+//			case Layer.Walkable:
+//				currentDestination = ShortDestination(clickPoint,walkMoveStopRadius);
+//				break;
+//			case Layer.Enemy:
+//				currentDestination = ShortDestination(clickPoint,attackMoveStopRadius);
+//				break;
+//			case Layer.RaycastEndStop:
+//				break;
+//			default:
+//				print ("i dont think we are supposed to be here lady");
+//				return;
+//			}
+//		}
+//		WalkToDestination ();
+//	}
 
 	Vector3 ShortDestination(Vector3 destination, float shortening){
 		Vector3 reductionVector = (destination - transform.position).normalized * shortening;
